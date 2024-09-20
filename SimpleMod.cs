@@ -46,6 +46,31 @@ namespace SimpleModWindow
                 // Box 생성 (배경으로 사용)
                 GUI.Box(new Rect(boxX, boxY, boxWidth, boxHeight), "Background Layer", GUI.skin.window);
 
+                // TAB 버튼 관련 설정
+                string[] tabTexts = { "TAB 1", "TAB 2", "TAB 3", "TAB 4", "TAB 5", "TAB 6" };
+                int tabCount = tabTexts.Length;
+
+                // 각 TAB 버튼의 크기 설정 (가로 길이를 Box 너비의 1/6로 설정)
+                float tabButtonWidth = boxWidth / tabCount;  // 각 버튼의 너비는 Box 너비를 6등분
+                float tabButtonHeight = Screen.height * 0.05f;  // 버튼의 높이
+                float tabButtonY = boxY - tabButtonHeight - 30f;  // Box 상단에서 30f 아래에 배치
+
+                // GUIStyle을 사용해 텍스트의 실제 크기를 계산하고 여백을 추가할 수 있습니다
+                GUIStyle buttonStyle = GUI.skin.button;
+
+                // 6개의 TAB 버튼 생성
+                for (int i = 0; i < tabCount; i++)
+                {
+                    // 각 TAB 버튼의 X 좌표는 균등하게 나누어 설정
+                    float tabButtonX = boxX + (tabButtonWidth * i);
+
+                    // TAB 버튼 생성
+                    if (GUI.Button(new Rect(tabButtonX, tabButtonY, tabButtonWidth, tabButtonHeight), tabTexts[i]))
+                    {
+                        Debug.Log(tabTexts[i] + " clicked!");
+                    }
+                }
+
                 // Label 크기와 위치 설정
                 float labelWidth = Screen.width * 0.5f;
                 float labelHeight = Screen.height * 0.05f;
