@@ -11,8 +11,13 @@ namespace SimpleModWindow
     public class SimpleMod : MonoBehaviour
     {        
         private bool visible = false;
-        protected GUIStyle labelStyle;
-        private string inputText = ""; // 입력 필드 값 저장용 변수
+        protected GUIStyle labelStyle;        
+
+        // 선택된 탭을 저장하는 변수
+        private int selectedTab = 0;
+
+        // 각 탭에 표시될 텍스트
+        private string[] tabLabels = { "Label 1", "Label 2", "Label 3", "Label 4", "Label 5", "Label 6" };
 
         [ExecuteOnGameStart]
         private static void AddMeToScene()
@@ -53,7 +58,7 @@ namespace SimpleModWindow
                 // 각 TAB 버튼의 크기 설정 (가로 길이를 Box 너비의 1/6로 설정)
                 float tabButtonWidth = boxWidth / tabCount;  // 각 버튼의 너비는 Box 너비를 6등분
                 float tabButtonHeight = Screen.height * 0.05f;  // 버튼의 높이
-                float tabButtonY = boxY - tabButtonHeight - 30f;  // Box 상단에서 30f 아래에 배치
+                float tabButtonY = boxY - tabButtonHeight;  // Box 상단에 붙여서 배치
 
                 // GUIStyle을 사용해 텍스트의 실제 크기를 계산하고 여백을 추가할 수 있습니다
                 GUIStyle buttonStyle = GUI.skin.button;
@@ -67,9 +72,13 @@ namespace SimpleModWindow
                     // TAB 버튼 생성
                     if (GUI.Button(new Rect(tabButtonX, tabButtonY, tabButtonWidth, tabButtonHeight), tabTexts[i]))
                     {
+                        selectedTab = i;  // 버튼이 눌리면 해당 탭 인덱스를 저장
                         Debug.Log(tabTexts[i] + " clicked!");
                     }
                 }
+
+                // 선택된 탭에 따라 Label 내용 변경
+                string currentLabel = tabLabels[selectedTab];
 
                 // Label 크기와 위치 설정
                 float labelWidth = Screen.width * 0.5f;
@@ -78,8 +87,8 @@ namespace SimpleModWindow
                 float labelX = boxX + (boxWidth - labelWidth) / 2;  // 박스 중앙에 배치
                 float labelY = boxY + boxHeight * 0.1f;  // 박스 상단에서 10% 지점에 위치
 
-                // Label 표시
-                GUI.Label(new Rect(labelX, labelY, labelWidth, labelHeight), "Dynamic Label", this.labelStyle);
+                // 선택된 탭에 맞는 Label 표시
+                GUI.Label(new Rect(labelX, labelY, labelWidth, labelHeight), currentLabel, this.labelStyle);
 
                 // 텍스트 필드 크기와 위치 설정
                 float textFieldWidth = Screen.width * 0.3f;
@@ -96,12 +105,7 @@ namespace SimpleModWindow
                 float buttonHeight = Screen.height * 0.03f;
 
                 float buttonX = boxX + (boxWidth - buttonWidth) / 2;
-                float buttonY = boxY + boxHeight * 0.5f;
-
-                // GUI.Box(new Rect(0f, 0f, 0f, 0f), "Mod Menu", GUI.skin.window);
-                // GUI.Label(new Rect(0f, 0f, 0f, 0f), "Enter some text:", this.labelStyle);
-                // inputText = GUI.TextField(new Rect(0f, 0f, 0f, 0f), inputText, GUI.skin.textField);
-                // if (GUI.Button(new Rect(0f, 0f, 0f, 0f), "Close"))
+                float buttonY = boxY + boxHeight * 0.5f;                
 
                 if (GUI.Button(new Rect(buttonX, buttonY, buttonWidth, buttonHeight), "Close"))
                 {
